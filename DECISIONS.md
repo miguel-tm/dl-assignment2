@@ -29,8 +29,7 @@ Log of environment, process and modelling decisions. Status: Decided / Open / Su
 
 | ID | Question | Leaning | Status |
 |---|---|---|---|
-| Q1 | Evaluate the test set only once, at the end, for all three final models | Yes: tune on validation only | Open |
-| Q2 | Models 2–3 continue from Model 1's trained head with a low learning rate | Yes: standard fine-tuning, protects pretrained weights | Open |
-| Q3 | Use VGG16 `preprocess_input` as the normalization step and say so explicitly in markdown | Yes | Open |
-| Q4 | Model 1: cached features, end-to-end training, or a hybrid (cached for head experiments plus one augmented run) | Hybrid | Open |
-| Q5 | Late-submission note to the instructors | — | Open |
+| Q1 | Evaluate the test set only once, at the end, for all three final models | Yes: tune on validation only | Decided |
+| Q2 | Models 2–3 continue from Model 1's trained head with a low learning rate | Yes: standard fine-tuning, protects pretrained weights | Decided |
+| Q3 | Use VGG16 `preprocess_input` as the normalization step and say so explicitly in markdown | Yes | Decided |
+| Q4 | Model 1: cached features, end-to-end training, or a hybrid (cached for head experiments plus one augmented run) | Hybrid | Decided |
