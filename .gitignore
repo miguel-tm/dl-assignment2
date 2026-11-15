@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data (keep the folder, ignore its contents)
+data/*
+!data/.gitkeep
+flower_photos/
+*.tgz
+
+# Outputs (keep the folder, ignore its contents)
+outputs/*
+!outputs/.gitkeep
+
+# Model files and checkpoints
+*.keras
+*.h5
+*.weights.h5
+checkpoints/
