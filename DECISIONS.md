@@ -14,6 +14,7 @@ Log of environment, process and modelling decisions. Status: Decided / Open / Su
 | E06 | GitHub is the backup for this repo; commit and push regularly; repo is private | WSL files are outside Windows Documents backup | Decided |
 | E07 | Keep TF_CPP_MIN_LOG_LEVEL=2; the cuFFT/cuDNN/cuBLAS "Unable to register" lines are known harmless noise | Level 3 would also hide real errors | Decided |
 | E08 | Enable GPU memory growth; default batch size 32, fall back to 16 on OOM | About 5.6 GB usable VRAM; Models 2–3 store gradients for more layers | Decided |
+| E09 | Seeds only (set_global_seed → keras.utils.set_random_seed); do **not** call tf.config.experimental.enable_op_determinism() | Seeds make splits and initial weights reproducible. Remaining GPU non-determinism moves accuracy by a fraction of a percent, unlikely to change conclusions; full determinism slows training and some ops can raise errors. Mentioned as a limitation in Phase 7 | Decided |
 
 ## Portability
 
@@ -49,5 +50,5 @@ Log of environment, process and modelling decisions. Status: Decided / Open / Su
 
 | ID | Question | Options | Status |
 |---|---|---|---|
-| D01 | Resize method | Stretch to 224×224 (simple; distorts aspect ratio) vs. crop/pad (keeps aspect ratio; may cut content). State choice in Phase 2 markdown | Open |
-| D02 | Validation share | % of the training set (assignment wording: 10–20% of training set size) — pick exact value | Open |
+| D01 | Resize method | Stretch to 224×224 (simple; distorts aspect ratio) vs. crop/pad (keeps aspect ratio; may cut content). State choice in Phase 2 markdown | Decided: **stretch** (resize_mode="stretch"); short justification in Phase 2 markdown |
+| D02 | Validation share | % of the training set (assignment wording: 10–20% of training set size) — pick exact value | Decided: **0.15** of the training set (val_fraction=0.15) |

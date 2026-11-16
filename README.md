@@ -7,12 +7,19 @@ SCS 3546 Assignment 2: transfer learning with VGG16 on the TensorFlow
 
 ```
 dl-assignment2/
+├── .github/
+│   └── copilot-instructions.md   # Context loaded by Copilot chats in this repo
 ├── data/                  # Dataset location (contents are git-ignored)
+├── dev/
+│   └── handoffs/          # Per-phase prompts for Copilot sessions
 ├── notebooks/
 │   └── SCS_3546_Assignment_02.ipynb
 ├── outputs/               # Saved figures and tables (contents are git-ignored)
 ├── .gitignore
+├── DECISIONS.md           # Decision log (why)
+├── PLAN.md                # Phase checklist (what)
 ├── README.md
+├── STATUS.md              # Progress by phase (what is done, how it works)
 └── requirements.txt
 ```
 
