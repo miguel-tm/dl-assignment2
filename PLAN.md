@@ -47,11 +47,10 @@ visible. Scaffold committed. Setup cell passes.
 
 ## Phase 1 — Helper functions (cells inside the notebook, see M04)
 Utilities
-- [ ] set_seeds(seed) — Python, NumPy, TensorFlow in one call
+- [ ] set_global_seed(seed) — Python, NumPy, TensorFlow in one call (defined in the Setup cell; no op determinism, E09)
 - [ ] plot_history(history) — loss + accuracy, train vs. val; same axes across experiments
 - [ ] count_params(model) — trainable / non-trainable counts (needed for Phase 6 table)
 - [ ] training time captured for every fit (needed for Phase 6 table)
-- [ ] save/load weights to outputs/ + TRAIN flag (P04)
 
 Data
 - [ ] load_dataset() — keras.utils.get_file; keep only .jpg (skip LICENSE.txt); **sort** paths; integer labels + class names
@@ -97,6 +96,7 @@ Hybrid approach (Q4):
 - [ ] Learning curves for each experiment + a summary table of val accuracy
 - [ ] Final Model 1: best head stacked on the frozen base, one end-to-end run **with data augmentation**
       (augmentation can only happen here — cached features are fixed)
+- [ ] save/load weights helpers to outputs/ + TRAIN flag (moved from Phase 1); decide P04 (how Colab gets the weights) here
 - [ ] Save weights to outputs/; report train and val accuracy
 - [ ] Checkpoint: commit, tag m2-model1
 
@@ -121,7 +121,7 @@ Hybrid approach (Q4):
 - [ ] Markdown: which model is best and why (frozen vs. partial vs. full fine-tuning trade-off)
 
 ## Phase 7 — Conclusions and submission
-- [ ] Conclusions and limitations
+- [ ] Conclusions and limitations (include: GPU runs are not bit-for-bit reproducible, E09)
 - [ ] Re-run the whole notebook top to bottom (TRAIN = True); check outputs
 - [ ] Name + student number in title cell
 - [ ] Final commit, tag submitted; submit .ipynb with the late note
