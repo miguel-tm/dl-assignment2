@@ -75,13 +75,13 @@ Checkpoint (small subset, ~200 images)
 - [x] Head fits on cached subset features (5 epochs); plot_history works
 - [x] Commit
 
-## Phase 2 — Data preparation (1 pt)
+## Phase 2 — Data preparation (1 pt) ✅
 - [x] Stratified 80/20 train/test split (fixed SEED)
 - [x] Validation split carved from train, also stratified (share: see D02)
 - [x] Table/plot: class proportions match across train / val / test
 - [x] Show a few resized sample images per class
-- [ ] Markdown: resize method (D01), and that preprocess_input **is** the normalization step (Q3), applied inside the model (M01)
-- [ ] Checkpoint: commit, tag m1-data
+- [x] Markdown: resize method (D01), and that preprocess_input **is** the normalization step (Q3), applied inside the model (M01)
+- [x] Checkpoint: commit, tag m1-data
 
 ## Phase 3 — Model 1: frozen VGG16 (5 pts)
 Hybrid approach (Q4):

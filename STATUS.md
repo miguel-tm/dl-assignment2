@@ -8,7 +8,7 @@ New Copilot/chat sessions: read this file first to see what is done and what com
 | Phase | Status | Tag |
 |---|---|---|
 | 1. Helper functions | Done, merged to `main` | — |
-| 2. Data preparation | Code done; Miguel's markdown pending | `m1-data` (planned) |
+| 2. Data preparation | Done, merged to `main` | `m1-data` |
 | 3. Model 1 (frozen base) | Next | |
 | 4. Model 2 (fine-tune block5) | Not started | |
 | 5. Model 3 (fine-tune all) | Not started | |
@@ -140,6 +140,5 @@ Phase 2 adds no new helpers; it applies the Phase 1 helpers to the full dataset 
 - PLAN: Phase 1 and Phase 2 code items ticked; label-noise note added to the Phase 7 limitations item.
 - No new decisions in DECISIONS.md.
 
-### Remaining to close Phase 2
-- Miguel fills the three placeholders.
-- Commit, merge, tag `m1-data`.
+### Closed
+- Miguel filled the three placeholders; merged to `main`, tagged `m1-data`.
