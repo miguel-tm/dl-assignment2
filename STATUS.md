@@ -7,9 +7,9 @@ New Copilot/chat sessions: read this file first to see what is done and what com
 
 | Phase | Status | Tag |
 |---|---|---|
-| 1. Helper functions | Done, checkpoint passed | — |
-| 2. Data preparation | Next | `m1-data` (planned) |
-| 3. Model 1 (frozen base) | Not started | |
+| 1. Helper functions | Done, merged to `main` | — |
+| 2. Data preparation | Code done; Miguel's markdown pending | `m1-data` (planned) |
+| 3. Model 1 (frozen base) | Next | |
 | 4. Model 2 (fine-tune block5) | Not started | |
 | 5. Model 3 (fine-tune all) | Not started | |
 | 6. Comparison | Not started | |
@@ -27,7 +27,7 @@ Kernel: "Python 3.12 (dl-a2, WSL GPU)".
 
 ## Phase 1: Helper functions
 
-Cell numbers are as of the Phase 1 commit; they shift as cells are added. Function names are stable.
+Cell numbers count every cell, markdown included, from the top of the notebook. Function names are stable.
 
 ### Cell 4: Setup
 - `TF_CPP_MIN_LOG_LEVEL=2` hides TF info logs (E07); `IN_COLAB` flag (P02).
@@ -78,10 +78,7 @@ Cell numbers are as of the Phase 1 commit; they shift as cells are added. Functi
 - `timed_fit()` returns `(history, seconds)` for Phase 6.
 - `plot_history()`: loss and accuracy side by side, train vs val; accuracy axis fixed at 0–1 for visual comparison. Returns nothing (returning the figure displayed it twice).
 
-### Cell 14: scratch tests
-Replaced by cell 16; can be deleted.
-
-### Cells 15–16: Phase 1 checkpoint (~200 images, `assert`-based)
+### Cells 14–15: Phase 1 checkpoint (~200 images, `assert`-based)
 
 | Check | Result |
 |---|---|
@@ -97,14 +94,52 @@ The pipeline works end to end and the head learns. First-epoch loss 4.8 is high 
 ### Deviations from the Phase 1 handoff
 - `set_seeds` → `set_global_seed`.
 - `build_head(units=...)` default is a tuple, not a list.
-- `plot_history` returns nothing.
+- `plot_history` returns nothing; Miguel later switched its epoch axis to integer ticks.
 - Save/load weights + `TRAIN` flag moved to Phase 3 (P04 decided there).
-- Checkpoint trains 2 epochs (handoff said 1).
+- Checkpoint trains 5 epochs (handoff said 1; Miguel raised it from 2 to 5 after the run above).
+- Scratch test cell deleted before the Phase 1 commit.
 
 ### Doc changes
 - DECISIONS: added E09; D01 = stretch, D02 = 0.15 (both Decided).
 - PLAN: rename to `set_global_seed`; reproducibility limitation added to Phase 7; weights helpers moved to Phase 3.
 
 ### Open items carried forward
-- Phase 2: `[TODO Miguel]` markdown for D01 (stretch), Q3/M01 (`preprocess_input` is the normalization), split rationale.
-- Phase 3: tune augmentation strengths; weights helpers + `TRAIN` flag, decide P04; optional `save_path` on `plot_history`; optional integer epoch ticks.
+- Phase 2: `[TODO Miguel]` markdown for D01 (stretch), Q3/M01 (`preprocess_input` is the normalization), split rationale (placeholders added in Phase 2).
+- Phase 3: tune augmentation strengths; weights helpers + `TRAIN` flag, decide P04; optional `save_path` on `plot_history`.
+
+---
+
+## Phase 2: Data preparation
+
+All cells sit under "## 1. Data Preparation" (cell 16). Branch `phase2-data`.
+Phase 2 adds no new helpers; it applies the Phase 1 helpers to the full dataset and shows the results.
+
+### Cell 17: split and class-proportion table
+- `set_global_seed()`, `load_dataset()`, `make_split()` → module-level `paths`, `labels`, `class_names`, `splits` (reused by later phases).
+- Re-runs the split instead of reusing the checkpoint's, so Phase 2+ works even if the checkpoint cell is skipped. Same SEED → identical split.
+- Asserts: no image in two splits; split sizes sum to 3,670.
+- Tables (pandas): counts per class × split (+ `all`, `total`), and class share (%) per split.
+- Output: train 2,495 / val 441 / test 734 (68.0 / 12.0 / 20.0% of all images). Largest class-share gap vs. full dataset: **0.08 percentage points** (dandelion, test).
+- Why gaps aren't zero: splits hold whole images; one image is 0.23 pp of val and 0.14 pp of test, so 0.08 pp is less than one image.
+
+### Cell 18: class-proportion bar chart
+- Grouped bars per class (train / val / test / all). Bars within each class are visually equal: dandelion ~24.5%, tulips ~21.8%, sunflowers ~19.0%, daisy and roses ~17.2-17.5%.
+
+### Cell 20: sample grid
+- 4 random training images per class (`np.random.default_rng(SEED)`), loaded with `load_image()`, so they show exactly what the model receives (stretched to 224×224, D01).
+- Sets module-level `train_paths`, `train_labels` = full training split (overwrites the checkpoint's subset names).
+- Titles give the original width×height. Sizes vary: mostly landscape (320×240, 500×333, 500×375), a few square (240×240) and portrait (180×240, 184×240). Landscape images get squeezed horizontally, portrait ones widened; many are smaller than 224 on one side, so they are also upscaled.
+- Data-quality observation: some images are off-topic or noisy, e.g. a dog with angel wings labeled "roses", a person in front of sunflowers. Candidate for the limitations section (PLAN Phase 7).
+
+### Cells 19 and 21: markdown placeholders (Miguel)
+- Cell 19 "Split rationale": 80/20 stratified, fixed SEED, val = 15% of train (D02), test once (Q1).
+- Cell 21 "Resizing (D01)": stretch vs. crop/pad, distortion visible in the grid.
+- Cell 21 "Normalization (Q3, M01)": `preprocess_input` (RGB→BGR, subtract ImageNet means) inside the model; pipeline delivers 0-255.
+
+### Doc changes
+- PLAN: Phase 1 and Phase 2 code items ticked; label-noise note added to the Phase 7 limitations item.
+- No new decisions in DECISIONS.md.
+
+### Remaining to close Phase 2
+- Miguel fills the three placeholders.
+- Commit, merge, tag `m1-data`.

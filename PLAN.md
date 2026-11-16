@@ -45,41 +45,41 @@ Also required: name + student number at the top; submit the executed .ipynb.
 WSL2 + Ubuntu, Python 3.12 (uv), TF 2.16.2 [and-cuda], Keras 3.15.1, RTX A2000
 visible. Scaffold committed. Setup cell passes.
 
-## Phase 1 — Helper functions (cells inside the notebook, see M04)
+## Phase 1 — Helper functions (cells inside the notebook, see M04) ✅
 Utilities
-- [ ] set_global_seed(seed) — Python, NumPy, TensorFlow in one call (defined in the Setup cell; no op determinism, E09)
-- [ ] plot_history(history) — loss + accuracy, train vs. val; same axes across experiments
-- [ ] count_params(model) — trainable / non-trainable counts (needed for Phase 6 table)
-- [ ] training time captured for every fit (needed for Phase 6 table)
+- [x] set_global_seed(seed) — Python, NumPy, TensorFlow in one call (defined in the Setup cell; no op determinism, E09)
+- [x] plot_history(history) — loss + accuracy, train vs. val; same axes across experiments
+- [x] count_params(model) — trainable / non-trainable counts (needed for Phase 6 table)
+- [x] training time captured for every fit (needed for Phase 6 table)
 
 Data
-- [ ] load_dataset() — keras.utils.get_file; keep only .jpg (skip LICENSE.txt); **sort** paths; integer labels + class names
-- [ ] make_split() — two-stage stratified split: 80/20 train/test, then val from train (stratify both times)
-- [ ] make_tf_dataset(paths, labels, shuffle) — decode → resize 224×224 → float32 **0–255** → batch → prefetch.
+- [x] load_dataset() — keras.utils.get_file; keep only .jpg (skip LICENSE.txt); **sort** paths; integer labels + class names
+- [x] make_split() — two-stage stratified split: 80/20 train/test, then val from train (stratify both times)
+- [x] make_tf_dataset(paths, labels, shuffle) — decode → resize 224×224 → float32 **0–255** → batch → prefetch.
       **No preprocess_input here** (M01). Shuffle the training split only; never shuffle for caching.
 
 Model
-- [ ] build_vgg_base() — VGG16(weights="imagenet", include_top=False, input_shape=(224,224,3)); verify output (None,7,7,512)
-- [ ] build_augmentation() — Keras augmentation layers (flip/rotation/zoom...); active only when training
-- [ ] build_feature_extractor(base) — Input → preprocess_input → base (no augmentation)
-- [ ] extract_features(extractor, ds) — returns (features, labels) as NumPy; ~370 MB for the full set, keep in RAM, not on GPU
-- [ ] build_head(config) — standalone keras.Model, input (7,7,512); configurable pooling (Flatten/GAP), units, layers, dropout, L2, batch norm
-- [ ] build_full_model(base, head, augmentation) — Input → augmentation → preprocess_input → base → head
-- [ ] set_trainable(base, mode) — "none" / "block5" / "all": set base.trainable=True first, then freeze per layer; always recompile after
+- [x] build_vgg_base() — VGG16(weights="imagenet", include_top=False, input_shape=(224,224,3)); verify output (None,7,7,512)
+- [x] build_augmentation() — Keras augmentation layers (flip/rotation/zoom...); active only when training
+- [x] build_feature_extractor(base) — Input → preprocess_input → base (no augmentation)
+- [x] extract_features(extractor, ds) — returns (features, labels) as NumPy; ~370 MB for the full set, keep in RAM, not on GPU
+- [x] build_head(config) — standalone keras.Model, input (7,7,512); configurable pooling (Flatten/GAP), units, layers, dropout, L2, batch norm
+- [x] build_full_model(base, head, augmentation) — Input → augmentation → preprocess_input → base → head
+- [x] set_trainable(base, mode) — "none" / "block5" / "all": set base.trainable=True first, then freeze per layer; always recompile after
 
 Checkpoint (small subset, ~200 images)
-- [ ] Class counts per split printed
-- [ ] One batch: shape (32,224,224,3); min/max ≈ 0/255 (raw pixels, confirms M01)
-- [ ] Feature extractor on that batch → (32,7,7,512)
-- [ ] set_trainable in all three modes → trainable params ≈ 0 / ~7.1M / ~14.7M (+ head)
-- [ ] Head fits 1 epoch on cached subset features; plot_history works
-- [ ] Commit
+- [x] Class counts per split printed
+- [x] One batch: shape (32,224,224,3); min/max ≈ 0/255 (raw pixels, confirms M01)
+- [x] Feature extractor on that batch → (32,7,7,512)
+- [x] set_trainable in all three modes → trainable params ≈ 0 / ~7.1M / ~14.7M (+ head)
+- [x] Head fits on cached subset features (5 epochs); plot_history works
+- [x] Commit
 
 ## Phase 2 — Data preparation (1 pt)
-- [ ] Stratified 80/20 train/test split (fixed SEED)
-- [ ] Validation split carved from train, also stratified (share: see D02)
-- [ ] Table/plot: class proportions match across train / val / test
-- [ ] Show a few resized sample images per class
+- [x] Stratified 80/20 train/test split (fixed SEED)
+- [x] Validation split carved from train, also stratified (share: see D02)
+- [x] Table/plot: class proportions match across train / val / test
+- [x] Show a few resized sample images per class
 - [ ] Markdown: resize method (D01), and that preprocess_input **is** the normalization step (Q3), applied inside the model (M01)
 - [ ] Checkpoint: commit, tag m1-data
 
@@ -121,7 +121,7 @@ Hybrid approach (Q4):
 - [ ] Markdown: which model is best and why (frozen vs. partial vs. full fine-tuning trade-off)
 
 ## Phase 7 — Conclusions and submission
-- [ ] Conclusions and limitations (include: GPU runs are not bit-for-bit reproducible, E09)
+- [ ] Conclusions and limitations (include: GPU runs are not bit-for-bit reproducible, E09; some dataset images are off-topic or mislabeled, seen in the Phase 2 sample grid)
 - [ ] Re-run the whole notebook top to bottom (TRAIN = True); check outputs
 - [ ] Name + student number in title cell
 - [ ] Final commit, tag submitted; submit .ipynb with the late note
